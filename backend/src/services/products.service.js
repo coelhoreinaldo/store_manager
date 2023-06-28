@@ -1,4 +1,5 @@
 const { productsModel } = require('../models');
+const { validateNewProduct } = require('./validations/validationsInputs');
 
 const findAll = async () => {
   const products = await productsModel.findAll();
@@ -17,6 +18,8 @@ const findById = async (productId) => {
 };
 
 const insert = async (product) => {
+  const error = validateNewProduct(product);
+  if (error) return { status: error.status, data: { message: error.message } };
   const insertId = await productsModel.insert(product);
   const newProduct = await productsModel.findById(insertId);
 
