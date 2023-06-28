@@ -1,29 +1,30 @@
-// const { expect } = require('chai');
-// const sinon = require('sinon');
-// const connection = require('../../../src/models/connection');
-// const { productsModel } = require('../../../src/models');
-// const { allProductsFromModelDB, productByIdFromModelDB } = require('../mocks/products.mock');
+const { expect } = require('chai');
+const sinon = require('sinon');
+const connection = require('../../../src/models/connection');
+const { salesModel } = require('../../../src/models');
+const { allSalesFromModel, salesByIdFromModel } = require('../mocks/sales.mock');
 
-// describe('The PRODUCTS MODEL LAYER', function () {
-//   it('should list all products', async function () {
-//     sinon.stub(connection, 'execute').resolves([allProductsFromModelDB]);
+describe('The SALES MODEL LAYER', function () {
+  it('should list all sales', async function () {
+    sinon.stub(connection, 'execute').resolves([allSalesFromModel]);
 
-//     const responseModel = await productsModel.findAll();
+    const responseModel = await salesModel.findAll();
 
-//     expect(responseModel).to.be.deep.equal(allProductsFromModelDB);
-//     expect(responseModel).to.be.an('array');
-//     expect(responseModel).to.have.lengthOf(3);
-//   });
+    expect(responseModel).to.be.deep.equal(allSalesFromModel);
+    expect(responseModel).to.be.an('array');
+    expect(responseModel).to.have.lengthOf(3);
+  });
 
-//   it('should list product by ID', async function () {
-//     sinon.stub(connection, 'execute').resolves([[productByIdFromModelDB]]);
+  it('should list sale by ID', async function () {
+    sinon.stub(connection, 'execute').resolves([salesByIdFromModel]);
 
-//     const inputId = 1;
-//     const responseModel = await productsModel.findById(inputId);
+    const inputId = 1;
+    const responseModel = await salesModel.findById(inputId);
 
-//     expect(responseModel).to.be.deep.equal(responseModel);
-//     expect(responseModel).to.be.an('object');
-//     expect(responseModel).to.have.property('id');
-//   });
-//   afterEach(function () { return sinon.restore(); });
-// });
+    expect(responseModel).to.be.deep.equal(responseModel);
+    expect(responseModel).to.be.an('array');
+    expect(responseModel[0]).to.have.property('productId');
+  });
+
+  afterEach(function () { return sinon.restore(); });
+});

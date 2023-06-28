@@ -2,7 +2,6 @@ const { salesModel } = require('../models');
 
 const findAll = async () => {
   const sales = await salesModel.findAll();
-  console.log(sales);
   if (!sales) {
     return { status: 'NOT FOUND', data: { message: 'There are no sales' } };
   }
