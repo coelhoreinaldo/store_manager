@@ -41,7 +41,7 @@ const allSalesFromServiceNotFound = {
   status: 'NOT_FOUND', data: { message: 'There are no sales' },
 };
 
-const saleByIdFromServiceNotFound = {
+const salesByIdFromServiceNotFound = {
   status: 'NOT_FOUND', data: { message: 'Sale not found' },
 };
 
@@ -51,5 +51,5 @@ module.exports = {
   allSalesFromService,
   salesByIdFromService,
   allSalesFromServiceNotFound,
-  saleByIdFromServiceNotFound,
+  salesByIdFromServiceNotFound,
 };
