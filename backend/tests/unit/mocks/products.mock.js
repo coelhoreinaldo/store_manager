@@ -29,9 +29,19 @@ const allProductsFromService = {
 
 const productByIdFromService = { status: 'SUCCESSFUL', data: { id: 1, name: 'Martelo de Thor' } };
 
+const allProductsFromServiceNotFound = {
+  status: 'NOT_FOUND', data: { message: 'There are no products' },
+};
+
+const productByIdFromServiceNotFound = {
+  status: 'NOT_FOUND', data: { message: 'Product not found' },
+};
+
 module.exports = {
   allProductsFromModelDB,
   productByIdFromModelDB,
   allProductsFromService,
   productByIdFromService,
+  allProductsFromServiceNotFound,
+  productByIdFromServiceNotFound,
 };

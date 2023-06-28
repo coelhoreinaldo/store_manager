@@ -15,7 +15,7 @@ describe('The PRODUCTS MODEL LAYER', function () {
     expect(responseModel).to.have.lengthOf(3);
   });
 
-  it('should list product by id', async function () {
+  it('should list product by ID', async function () {
     sinon.stub(connection, 'execute').resolves([[productByIdFromModelDB]]);
 
     const inputId = 1;

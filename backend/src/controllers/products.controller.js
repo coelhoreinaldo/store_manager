@@ -8,7 +8,7 @@ const findAll = async (_req, res) => {
 
 const findById = async (req, res) => {
   const { id } = req.params;
-  const { status, data } = await productsService.findById(+id);
+  const { status, data } = await productsService.findById(id);
   return res.status(mapStatusHTTP(status)).json(data);
 };
 
