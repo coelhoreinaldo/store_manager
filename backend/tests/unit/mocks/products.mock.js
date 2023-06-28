@@ -39,10 +39,32 @@ const productByIdFromServiceNotFound = {
 
 const productIdFromDB = { insertId: 4 };
 const productIdFromModel = 4;
+
 const newProductByIdFromModel = {
   id: 4,
   name: 'Monitor',
 };
+
+const productFromServiceCreated = {
+  status: 'CREATED',
+  data: newProductByIdFromModel,
+};
+// const productFromServiceInvalidValue = {
+//   status: 'INVALID_VALUE',
+//   data: { message: 'message' },
+// };
+// const productFromServiceNotFound = {
+//   status: 'NOT_FOUND',
+//   data: { message: 'message' },
+// };
+// const productFromServiceConflict = {
+//   status: 'CONFLICT',
+//   data: { message: 'message' },
+// };
+// const productFromServiceSuccessful = {
+//   status: 'SUCCESSFUL',
+//   data: updatedTravelFromModel,
+// };
 
 module.exports = {
   allProductsFromModelDB,
@@ -54,4 +76,5 @@ module.exports = {
   productIdFromDB,
   productIdFromModel,
   newProductByIdFromModel,
+  productFromServiceCreated,
 };
