@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const connection = require('../../../src/models/connection');
 const { productsModel } = require('../../../src/models');
-const { allProductsFromModelDB, productByIdFromModelDB, productIdFromDB } = require('../mocks/products.mock');
+const { allProductsFromModelDB, productByIdFromModelDB, productIdFromDB, productIdFromModel } = require('../mocks/products.mock');
 
 describe('The PRODUCTS MODEL LAYER', function () {
   describe('GET endpoint', function () {
@@ -36,6 +36,7 @@ describe('The PRODUCTS MODEL LAYER', function () {
       const insertIdResponse = await productsModel.insert(inputData);
 
       expect(insertIdResponse).to.be.a('number');
+      expect(insertIdResponse).to.be.equal(productIdFromModel);
     });
   });
   afterEach(function () { return sinon.restore(); });

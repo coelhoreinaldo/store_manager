@@ -39,6 +39,10 @@ const productByIdFromServiceNotFound = {
 
 const productIdFromDB = { insertId: 4 };
 const productIdFromModel = 4;
+const newProductByIdFromModel = {
+  id: 4,
+  name: 'Monitor',
+};
 
 module.exports = {
   allProductsFromModelDB,
@@ -49,4 +53,5 @@ module.exports = {
   productByIdFromServiceNotFound,
   productIdFromDB,
   productIdFromModel,
+  newProductByIdFromModel,
 };
