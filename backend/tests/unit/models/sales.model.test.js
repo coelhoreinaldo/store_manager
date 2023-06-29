@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const connection = require('../../../src/models/connection');
 const { salesModel } = require('../../../src/models');
-const { allSalesFromModel, salesByIdFromModel, newSaleIdFromDB, newSaleFromModel, newSaleIdFromModel } = require('../mocks/sales.mock');
+const { allSalesFromModel, salesByIdFromModel, saleIdFromDB, newSaleFromModel, saleIdFromModel } = require('../mocks/sales.mock');
 
 describe('The SALES MODEL LAYER', function () {
   describe('GET endpoint', function () {
@@ -29,10 +29,10 @@ describe('The SALES MODEL LAYER', function () {
   });
 
   describe('POST endpoint', function () {
-    it('should register a new product', async function () {
+    it('should register a new sale', async function () {
       sinon.stub(connection, 'execute')
         .onFirstCall()
-        .resolves([newSaleIdFromDB])
+        .resolves([saleIdFromDB])
         .onSecondCall()
         .resolves([newSaleFromModel[0]])
         .onThirdCall()
@@ -52,7 +52,7 @@ describe('The SALES MODEL LAYER', function () {
       const insertIdResponse = await salesModel.insert(inputData);
 
       expect(insertIdResponse).to.be.a('number');
-      expect(insertIdResponse).to.be.equal(newSaleIdFromModel);
+      expect(insertIdResponse).to.be.equal(saleIdFromModel);
     });
   });
   afterEach(function () { return sinon.restore(); });

@@ -18,15 +18,15 @@ const findById = async (saleId) => {
 };
 
 const insert = async (sales) => {
+  const error = validateNewSale(sales);
+  if (error) return { status: error.status, data: { message: error.message } };
+
   const products = sales.map((product) => productsModel.findById(product.productId));
   const result = await Promise.all(products);
-  console.log(result);
   if (result.some((e) => e === undefined)) {
     return { status: 'NOT_FOUND', data: { message: 'Product not found' } };
   }
 
-  const error = validateNewSale(sales);
-  if (error) return { status: error.status, data: { message: error.message } };
   const id = await salesModel.insert(sales);
   const formattedSales = {
     id,
