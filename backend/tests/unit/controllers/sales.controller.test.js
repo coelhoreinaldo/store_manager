@@ -4,7 +4,7 @@ const sinon = require('sinon');
 const sinonChai = require('sinon-chai');
 
 chai.use(sinonChai);
-const { allSalesFromService, salesByIdFromService, salesByIdFromServiceNotFound, allSalesFromServiceNotFound, newSaleFromModel, saleFromServiceCreated, saleFromServiceDeleted, saleFromServiceNotFound } = require('../mocks/sales.mock');
+const { allSalesFromService, salesByIdFromService, salesByIdFromServiceNotFound, allSalesFromServiceNotFound, newSaleFromModel, saleFromServiceCreated, saleFromServiceDeleted, saleFromServiceNotFound, saleFromServiceSuccessful } = require('../mocks/sales.mock');
 const { salesService } = require('../../../src/services');
 const { salesController } = require('../../../src/controllers');
 const mapStatusHTTP = require('../../../src/utils/mapStatusToHTTP');
@@ -148,5 +148,28 @@ describe('The SALES CONTROLLER LAYER', function () {
     });
   });
 
+  describe('PUT endpoint', function () {
+    it('should edit quantity of an existent sale', async function () {
+      sinon.stub(salesService, 'updateQuantity').resolves(saleFromServiceSuccessful);
+
+      const inputData = { quantity: 4 };
+      const saleId = 1;
+      const productId = 2;
+      const req = {
+        params: { saleId, productId },
+        body: { inputData },
+      };
+
+      const res = {
+        status: sinon.stub().returnsThis(),
+        json: sinon.stub(),
+      };
+
+      await salesController.updateQuantity(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(saleFromServiceSuccessful.data);
+    });
+  });
   afterEach(function () { return sinon.restore(); });
 });
