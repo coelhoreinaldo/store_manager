@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const connection = require('../../../src/models/connection');
 const { productsModel } = require('../../../src/models');
-const { allProductsFromModelDB, productByIdFromModelDB, productIdFromDB, productIdFromModel, updatedProductFromDB } = require('../mocks/products.mock');
+const { allProductsFromModelDB, productByIdFromModelDB, productIdFromDB, productIdFromModel, updatedProductFromDB, deletedProductFromDb } = require('../mocks/products.mock');
 
 describe('The PRODUCTS MODEL LAYER', function () {
   describe('GET endpoint', function () {
@@ -49,6 +49,18 @@ describe('The PRODUCTS MODEL LAYER', function () {
 
       expect(responseData[0].affectedRows).to.be.equal(1);
       expect(responseData[0].changedRows).to.be.equal(1);
+    });
+  });
+
+  describe('DELETE endpoint', function () {
+    it('should delete a product', async function () {
+      sinon.stub(connection, 'execute').resolves(deletedProductFromDb);
+
+      const inputId = 1;
+
+      const responseData = await productsModel.deleteProduct(inputId);
+
+      expect(responseData[0].affectedRows).to.be.equal(1);
     });
   });
 

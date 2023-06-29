@@ -103,5 +103,10 @@ describe('The PRODUCTS SERVICE LAYER', function () {
     });
   });
 
+  // describe('DELETE endpoint', function () {
+  //   it('should delete a product', async () => {
+  //     sinon.stub(productsModel, '')
+  //   })
+  // });
   afterEach(function () { return sinon.restore(); });
 });

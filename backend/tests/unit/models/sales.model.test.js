@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const connection = require('../../../src/models/connection');
 const { salesModel } = require('../../../src/models');
-const { allSalesFromModel, salesByIdFromModel, saleIdFromDB, newSaleFromModel, saleIdFromModel } = require('../mocks/sales.mock');
+const { allSalesFromModel, salesByIdFromModel, saleIdFromDB, newSaleFromModel, saleIdFromModel, deletedSaleFromDb } = require('../mocks/sales.mock');
 
 describe('The SALES MODEL LAYER', function () {
   describe('GET endpoint', function () {
@@ -53,6 +53,18 @@ describe('The SALES MODEL LAYER', function () {
 
       expect(insertIdResponse).to.be.a('number');
       expect(insertIdResponse).to.be.equal(saleIdFromModel);
+    });
+  });
+
+  describe('DELETE endpoint', function () {
+    it('should delete a product', async function () {
+      sinon.stub(connection, 'execute').resolves(deletedSaleFromDb);
+
+      const inputId = 1;
+      const responseData = await salesModel.deleteSale(inputId);
+      console.log(responseData);
+
+      expect(responseData[0].affectedRows).to.be.equal(1);
     });
   });
   afterEach(function () { return sinon.restore(); });

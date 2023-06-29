@@ -70,6 +70,18 @@ const productFromServiceSuccessful = {
   data: updatedProductFromModel,
 };
 
+const deletedProductFromDb = [
+  {
+    fieldCount: 0,
+    affectedRows: 1,
+    insertId: 0,
+    info: '',
+    serverStatus: 2,
+    warningStatus: 0,
+  },
+  undefined,
+];
+
 // const productFromServiceInvalidValue = {
 //   status: 'INVALID_VALUE',
 //   data: { message: 'message' },
@@ -97,4 +109,5 @@ module.exports = {
   updatedProductFromDB,
   updatedProductFromModel,
   productFromServiceSuccessful,
+  deletedProductFromDb,
 };

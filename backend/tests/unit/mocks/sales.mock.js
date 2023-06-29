@@ -78,6 +78,18 @@ const saleFromServiceCreated = {
   data: newSaleFromService,
 };
 
+const deletedSaleFromDb = [
+  {
+    fieldCount: 0,
+    affectedRows: 1,
+    insertId: 0,
+    info: '',
+    serverStatus: 2,
+    warningStatus: 0,
+  },
+  undefined,
+];
+
 module.exports = {
   allSalesFromModel,
   salesByIdFromModel,
@@ -90,4 +102,5 @@ module.exports = {
   newSaleFromModel,
   newSaleFromService,
   saleFromServiceCreated,
+  deletedSaleFromDb,
 };
