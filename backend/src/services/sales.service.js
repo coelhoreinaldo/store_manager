@@ -35,4 +35,15 @@ const insert = async (sales) => {
   return { status: 'CREATED', data: formattedSales };
 };
 
-module.exports = { findAll, findById, insert };
+const deleteSale = async (saleId) => {
+  const saleExists = await salesModel.findById(saleId);
+  if (saleExists.length < 1) {
+    return { status: 'NOT_FOUND', data: { message: 'Sale not found' } };
+  }
+
+  await salesModel.deleteSale(saleId);
+
+  return { status: 'DELETED' };
+};
+
+module.exports = { findAll, findById, insert, deleteSale };

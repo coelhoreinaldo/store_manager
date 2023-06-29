@@ -18,6 +18,12 @@ const insert = async (req, res) => {
   return res.status(mapStatusHTTP(status)).json(data);
 };
 
+const deleteSale = async (req, res) => {
+  const { id } = req.params;
+  const { status, data } = await salesService.deleteSale(id);
+  return res.status(mapStatusHTTP(status)).json(data) || res.sendStatus(status).end();
+};
+
 module.exports = {
-  findAll, findById, insert,
+  findAll, findById, insert, deleteSale,
 };
