@@ -1,6 +1,6 @@
 const checkRequiredFields = require('../utils/checkRequiredFields');
 
-const validateCreateProduct = (req, res, next) => {
+const validateProduct = (req, res, next) => {
   const product = req.body;
   const requiredFields = ['name'];
 
@@ -9,4 +9,4 @@ const validateCreateProduct = (req, res, next) => {
   return next();
 };
 
-module.exports = validateCreateProduct;
+module.exports = validateProduct;

@@ -18,6 +18,10 @@ const insert = async (req, res) => {
   return res.status(mapStatusHTTP(status)).json(data);
 };
 
+const update = async (req, res) => {
+  const { name } = req.body;
+};
+
 module.exports = {
   findAll, findById, insert,
 };

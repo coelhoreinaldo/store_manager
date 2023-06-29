@@ -2,9 +2,9 @@ const chai = require('chai');
 const { expect } = require('chai');
 const sinon = require('sinon');
 const sinonChai = require('sinon-chai');
-const validateCreateProduct = require('../../src/middlewares/validateNewProduct');
+const validateProduct = require('../../src/middlewares/validateProduct');
 const { newSaleFromModel } = require('../unit/mocks/sales.mock');
-const validateCreateSale = require('../../src/middlewares/validateNewSale');
+const validateSale = require('../../src/middlewares/validateSale');
 
 chai.use(sinonChai);
 
@@ -23,7 +23,7 @@ describe('The MIDDLEWARES', function () {
         json: sinon.stub(),
       };
 
-      await validateCreateProduct(req, res, next);
+      await validateProduct(req, res, next);
 
       expect(next).to.have.been.calledWith();
     });
@@ -41,7 +41,7 @@ describe('The MIDDLEWARES', function () {
         json: sinon.stub(),
       };
 
-      await validateCreateProduct(req, res, next);
+      await validateProduct(req, res, next);
 
       expect(res.status).to.have.been.calledWith(400);
     });
@@ -60,7 +60,7 @@ describe('The MIDDLEWARES', function () {
         json: sinon.stub(),
       };
 
-      await validateCreateSale(req, res, next);
+      await validateSale(req, res, next);
       expect(next).to.have.been.calledWith();
     });
 
@@ -87,7 +87,7 @@ describe('The MIDDLEWARES', function () {
     //     json: sinon.stub(),
     //   };
 
-    //   await validateCreateProduct(req, res, next);
+    //   await validateProduct(req, res, next);
     //   expect(next).to.have.been.calledWith();
     //   sinon.assert.calledWith(res.status, 400);
 
