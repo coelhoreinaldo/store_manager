@@ -52,12 +52,4 @@ const deleteProduct = async (productId) => {
   return { status: 'DELETED' };
 };
 
-// const findByName = async (nameQuery) => {
-//   const allProducts = await productsModel.findAll();
-//   const filteredProducts = allProducts.filter((products) => products.name.includes(nameQuery));
-//   console.log(nameQuery);
-
-//   return { status: 'SUCCESSFUL', data: filteredProducts };
-// };
-
 module.exports = { findAll, findById, insert, update, deleteProduct };
