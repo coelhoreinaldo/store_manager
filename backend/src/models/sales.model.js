@@ -42,7 +42,6 @@ const insert = async (sales) => {
 
 const deleteSale = async (saleId) => {
   const query = 'DELETE FROM sales WHERE id = ?';
-  console.log(await connection.execute(query, [saleId]));
   return connection.execute(query, [saleId]);
 };
 

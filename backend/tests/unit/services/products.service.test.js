@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 const { productsModel } = require('../../../src/models');
-const { allProductsFromModelDB, allProductsFromService, productByIdFromModelDB, productByIdFromService, productIdFromModel, newProductByIdFromModel, updatedProductFromDB, updatedProductFromModel } = require('../mocks/products.mock');
+const { allProductsFromModelDB, allProductsFromService, productByIdFromModelDB, productByIdFromService, productIdFromModel, newProductByIdFromModel, updatedProductFromDB, updatedProductFromModel, deletedProductFromDb } = require('../mocks/products.mock');
 const { productsService } = require('../../../src/services');
 
 describe('The PRODUCTS SERVICE LAYER', function () {
@@ -103,10 +103,24 @@ describe('The PRODUCTS SERVICE LAYER', function () {
     });
   });
 
-  // describe('DELETE endpoint', function () {
-  //   it('should delete a product', async () => {
-  //     sinon.stub(productsModel, '')
-  //   })
-  // });
+  describe('DELETE endpoint', function () {
+    it('should delete a product', async function () {
+      sinon.stub(productsModel, 'findById').resolves(productByIdFromModelDB);
+      sinon.stub(productsModel, 'deleteProduct').resolves(deletedProductFromDb);
+
+      const id = 1;
+      const serviceData = await productsService.deleteProduct(id);
+
+      expect(serviceData.status).to.be.equal('DELETED');
+    });
+    it('should return an error if product doesnt exists', async function () {
+      sinon.stub(productsModel, 'findById').resolves(undefined);
+
+      const id = 1;
+      const serviceData = await productsService.deleteProduct(id);
+
+      expect(serviceData.status).to.be.equal('NOT_FOUND');
+    });
+  });
   afterEach(function () { return sinon.restore(); });
 });

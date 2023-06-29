@@ -62,7 +62,6 @@ describe('The SALES MODEL LAYER', function () {
 
       const inputId = 1;
       const responseData = await salesModel.deleteSale(inputId);
-      console.log(responseData);
 
       expect(responseData[0].affectedRows).to.be.equal(1);
     });

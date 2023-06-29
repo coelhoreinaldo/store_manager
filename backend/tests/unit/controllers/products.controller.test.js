@@ -4,7 +4,7 @@ const sinon = require('sinon');
 const sinonChai = require('sinon-chai');
 
 chai.use(sinonChai);
-const { allProductsFromService, productByIdFromService, productByIdFromServiceNotFound, allProductsFromServiceNotFound, newProductByIdFromModel, productFromServiceCreated, productFromServiceSuccessful } = require('../mocks/products.mock');
+const { allProductsFromService, productByIdFromService, productByIdFromServiceNotFound, allProductsFromServiceNotFound, newProductByIdFromModel, productFromServiceCreated, productFromServiceSuccessful, productFromServiceDeleted, productFromServiceNotFound } = require('../mocks/products.mock');
 const { productsService } = require('../../../src/services');
 const { productsController } = require('../../../src/controllers');
 
@@ -121,6 +121,47 @@ describe('The PRODUCTS CONTROLLER LAYER', function () {
 
       expect(res.status).to.have.been.calledWith(200);
       expect(res.json).to.have.been.calledWith(productFromServiceSuccessful.data);
+    });
+  });
+  describe('DELETE endpoint', function () {
+    it('should delete a product', async function () {
+      sinon.stub(productsService, 'deleteProduct').resolves(productFromServiceDeleted);
+
+      const id = 1;
+
+      const req = {
+        params: { id },
+        body: {},
+      };
+
+      const res = {
+        status: sinon.stub().returnsThis(),
+        json: sinon.stub(),
+        end: sinon.stub(),
+      };
+
+      await productsController.deleteProduct(req, res);
+      expect(res.status).to.have.been.calledWith(204);
+    });
+    it('should return an error if product doesnt exists', async function () {
+      sinon.stub(productsService, 'deleteProduct').resolves(productFromServiceNotFound);
+
+      const id = 99;
+
+      const req = {
+        params: { id },
+        body: {},
+      };
+
+      const res = {
+        status: sinon.stub().returnsThis(),
+        json: sinon.stub(),
+        end: sinon.stub(),
+      };
+
+      await productsController.deleteProduct(req, res);
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: 'message' });
     });
   });
   afterEach(function () { return sinon.restore(); });

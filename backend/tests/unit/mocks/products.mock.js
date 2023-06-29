@@ -82,14 +82,16 @@ const deletedProductFromDb = [
   undefined,
 ];
 
-// const productFromServiceInvalidValue = {
-//   status: 'INVALID_VALUE',
-//   data: { message: 'message' },
-// };
-// const productFromServiceNotFound = {
-//   status: 'NOT_FOUND',
-//   data: { message: 'message' },
-// };
+const productFromServiceDeleted = {
+  status: 'DELETED',
+  data: { message: 'message' },
+};
+
+const productFromServiceNotFound = {
+  status: 'NOT_FOUND',
+  data: { message: 'message' },
+};
+
 // const productFromServiceConflict = {
 //   status: 'CONFLICT',
 //   data: { message: 'message' },
@@ -110,4 +112,6 @@ module.exports = {
   updatedProductFromModel,
   productFromServiceSuccessful,
   deletedProductFromDb,
+  productFromServiceDeleted,
+  productFromServiceNotFound,
 };
