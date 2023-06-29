@@ -45,4 +45,19 @@ const deleteSale = async (saleId) => {
   return connection.execute(query, [saleId]);
 };
 
-module.exports = { findAll, findById, insert, deleteSale };
+const findBySaleIdAndProductId = async (saleId, productId) => {
+  const query = `SELECT DISTINCT(s.date), sp.sale_id, sp.product_id, sp.quantity 
+  FROM sales AS s INNER JOIN sales_products AS sp
+  WHERE sale_id = ? AND product_id = ?;`;
+  const [[sale]] = await connection.execute(query, [saleId, productId]);
+  return camelize(sale);
+};
+
+const updateQuantity = async (saleId, productId, quantity) => {
+  const query = 'UPDATE sales_products SET quantity = ? WHERE sale_id = ? AND product_id = ?';
+  await connection.execute(query, [...Object.values(quantity), saleId, productId]);
+  const formattedObject = await findBySaleIdAndProductId(saleId, productId);
+  return formattedObject;
+};
+
+module.exports = { findAll, findById, insert, deleteSale, updateQuantity };

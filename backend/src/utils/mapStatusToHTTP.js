@@ -5,6 +5,7 @@ const httpErrorMap = {
   CONFLICT: 409,
   INVALID_VALUE: 422,
   DELETED: 204,
+  EMPTY_VALUE: 400,
 };
 
 const mapStatusHTTP = (status) => httpErrorMap[status] || 500;

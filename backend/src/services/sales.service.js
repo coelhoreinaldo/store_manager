@@ -1,5 +1,5 @@
 const { salesModel, productsModel } = require('../models');
-const { validateNewSale } = require('./validations/validationsInputs');
+const { validateNewSale, validateQuantity } = require('./validations/validationsInputs');
 
 const findAll = async () => {
   const sales = await salesModel.findAll();
@@ -46,4 +46,23 @@ const deleteSale = async (saleId) => {
   return { status: 'DELETED' };
 };
 
-module.exports = { findAll, findById, insert, deleteSale };
+const updateQuantity = async (saleId, productId, quantity) => {
+  const error = validateQuantity(quantity);
+  if (error) return { status: error.status, data: { message: error.message } };
+
+  const saleExists = await salesModel.findById(saleId);
+  if (saleExists.length < 1) {
+    return { status: 'NOT_FOUND', data: { message: 'Sale not found' } };
+  }
+
+  const productExists = saleExists.find((e) => e.productId === productId);
+  if (!productExists) {
+    return { status: 'NOT_FOUND', data: { message: 'Product not found in sale' } };
+  }
+
+  const updatedSale = await salesModel.updateQuantity(saleId, productId, quantity);
+
+  return { status: 'SUCCESSFUL', data: updatedSale };
+};
+
+module.exports = { findAll, findById, insert, deleteSale, updateQuantity };
