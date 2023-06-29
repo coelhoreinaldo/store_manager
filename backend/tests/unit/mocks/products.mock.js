@@ -65,6 +65,11 @@ const updatedProductFromDB = [
 
 const updatedProductFromModel = { id: 1, name: 'Bola de futebol' };
 
+const productFromServiceSuccessful = {
+  status: 'SUCCESSFUL',
+  data: updatedProductFromModel,
+};
+
 // const productFromServiceInvalidValue = {
 //   status: 'INVALID_VALUE',
 //   data: { message: 'message' },
@@ -76,10 +81,6 @@ const updatedProductFromModel = { id: 1, name: 'Bola de futebol' };
 // const productFromServiceConflict = {
 //   status: 'CONFLICT',
 //   data: { message: 'message' },
-// };
-// const productFromServiceSuccessful = {
-//   status: 'SUCCESSFUL',
-//   data: updatedTravelFromModel,
 // };
 
 module.exports = {
@@ -95,4 +96,5 @@ module.exports = {
   productFromServiceCreated,
   updatedProductFromDB,
   updatedProductFromModel,
+  productFromServiceSuccessful,
 };

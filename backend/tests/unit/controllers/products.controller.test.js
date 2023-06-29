@@ -4,7 +4,7 @@ const sinon = require('sinon');
 const sinonChai = require('sinon-chai');
 
 chai.use(sinonChai);
-const { allProductsFromService, productByIdFromService, productByIdFromServiceNotFound, allProductsFromServiceNotFound, newProductByIdFromModel, productFromServiceCreated } = require('../mocks/products.mock');
+const { allProductsFromService, productByIdFromService, productByIdFromServiceNotFound, allProductsFromServiceNotFound, newProductByIdFromModel, productFromServiceCreated, productFromServiceSuccessful } = require('../mocks/products.mock');
 const { productsService } = require('../../../src/services');
 const { productsController } = require('../../../src/controllers');
 
@@ -99,6 +99,28 @@ describe('The PRODUCTS CONTROLLER LAYER', function () {
 
       expect(res.status).to.have.been.calledWith(201);
       expect(res.json).to.have.been.calledWith(newProductByIdFromModel);
+    });
+  });
+  describe('PUT endpoint', function () {
+    it('should edit data of an existent product', async function () {
+      sinon.stub(productsService, 'update').resolves(productFromServiceSuccessful);
+
+      const inputData = { name: 'Bola de futebol' };
+      const id = 1;
+      const req = {
+        params: { id },
+        body: { inputData },
+      };
+
+      const res = {
+        status: sinon.stub().returnsThis(),
+        json: sinon.stub(),
+      };
+
+      await productsController.update(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(productFromServiceSuccessful.data);
     });
   });
   afterEach(function () { return sinon.restore(); });
