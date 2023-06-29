@@ -100,6 +100,47 @@ const saleFromServiceNotFound = {
   data: { message: 'message' },
 };
 
+const updatedSaleFromDb = [
+  {
+    fieldCount: 0,
+    affectedRows: 1,
+    insertId: 0,
+    info: 'Rows matched: 1  Changed: 1  Warnings: 0',
+    serverStatus: 2,
+    warningStatus: 0,
+    changedRows: 1,
+  },
+  undefined,
+];
+
+const updatedSaleFromModel = {
+  date,
+  saleId: 1,
+  productId: 2,
+  quantity: 4,
+};
+
+const allSalesUpdatedFromModel = [
+  {
+    date,
+    saleId: 1,
+    productId: 1,
+    quantity: 5,
+  },
+  {
+    date,
+    saleId: 1,
+    productId: 2,
+    quantity: 4,
+  },
+  {
+    date,
+    saleId: 2,
+    productId: 3,
+    quantity: 15,
+  },
+];
+
 module.exports = {
   allSalesFromModel,
   salesByIdFromModel,
@@ -115,4 +156,7 @@ module.exports = {
   deletedSaleFromDb,
   saleFromServiceDeleted,
   saleFromServiceNotFound,
+  updatedSaleFromDb,
+  updatedSaleFromModel,
+  allSalesUpdatedFromModel,
 };

@@ -60,7 +60,13 @@ const updateQuantity = async (saleId, productId, quantity) => {
     return { status: 'NOT_FOUND', data: { message: 'Product not found in sale' } };
   }
 
-  const updatedSale = await salesModel.updateQuantity(saleId, productId, quantity);
+  // const updatedSale = await salesModel.updateQuantity(saleId, productId, quantity);
+
+  await salesModel.updateQuantity(saleId, productId, quantity);
+
+  const allSales = await salesModel.findAll();
+  const updatedSale = allSales.find((item) =>
+    item.productId === productId && item.saleId === saleId);
 
   return { status: 'SUCCESSFUL', data: updatedSale };
 };

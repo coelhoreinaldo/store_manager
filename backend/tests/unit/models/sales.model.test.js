@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const connection = require('../../../src/models/connection');
 const { salesModel } = require('../../../src/models');
-const { allSalesFromModel, salesByIdFromModel, saleIdFromDB, newSaleFromModel, saleIdFromModel, deletedSaleFromDb } = require('../mocks/sales.mock');
+const { allSalesFromModel, salesByIdFromModel, saleIdFromDB, newSaleFromModel, saleIdFromModel, deletedSaleFromDb, updatedSaleFromDb } = require('../mocks/sales.mock');
 
 describe('The SALES MODEL LAYER', function () {
   describe('GET endpoint', function () {
@@ -66,5 +66,20 @@ describe('The SALES MODEL LAYER', function () {
       expect(responseData[0].affectedRows).to.be.equal(1);
     });
   });
+
+  describe('PUT endpoint', function () {
+    it('should edit a sale\'s quantity', async function () {
+      sinon.stub(connection, 'execute').resolves(updatedSaleFromDb);
+
+      const saleId = 1;
+      const productId = 2;
+      const quantity = 3;
+
+      const responseData = await salesModel.updateQuantity(saleId, productId, quantity);
+
+      expect(responseData[0].affectedRows).to.be.equal(1);
+    });
+  });
+
   afterEach(function () { return sinon.restore(); });
 });

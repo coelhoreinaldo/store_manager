@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 const { salesModel, productsModel } = require('../../../src/models');
-const { allSalesFromModel, allSalesFromService, salesByIdFromModel, salesByIdFromService, saleIdFromModel, newSaleFromService, deletedSaleFromDb } = require('../mocks/sales.mock');
+const { allSalesFromModel, allSalesFromService, salesByIdFromModel, salesByIdFromService, saleIdFromModel, newSaleFromService, deletedSaleFromDb, updatedSaleFromDb, allSalesUpdatedFromModel, updatedSaleFromModel } = require('../mocks/sales.mock');
 const { salesService } = require('../../../src/services');
 const { allProductsFromService } = require('../mocks/products.mock');
 
@@ -112,6 +112,58 @@ describe('The SALES SERVICE LAYER', function () {
       const serviceData = await salesService.deleteSale(id);
 
       expect(serviceData.status).to.be.equal('NOT_FOUND');
+    });
+  });
+
+  describe('PUT endpoint', function () {
+    it('should edit a sale\'s quantity', async function () {
+      sinon.stub(salesModel, 'findById').resolves(salesByIdFromModel);
+      sinon.stub(salesModel, 'updateQuantity').resolves(updatedSaleFromDb);
+      sinon.stub(salesModel, 'findAll').resolves(allSalesUpdatedFromModel);
+
+      const saleId = 1;
+      const productId = 2;
+      const quantity = { quantity: 4 };
+
+      const responseService = await salesService.updateQuantity(saleId, productId, quantity);
+
+      expect(responseService.status).to.be.equal('SUCCESSFUL');
+      expect(responseService.data).to.be.deep.equal(updatedSaleFromModel);
+    });
+
+    it('should return a error if quantity is invalid', async function () {
+      const saleId = 1;
+      const productId = 2;
+      const quantity = { quantity: 0 };
+
+      const responseService = await salesService.updateQuantity(saleId, productId, quantity);
+
+      expect(responseService.status).to.be.equal('INVALID_VALUE');
+      expect(responseService.data).to.be.deep.equal({ message: '"quantity" must be greater than or equal to 1' });
+    });
+    it('should return a error if sale doesnt exist', async function () {
+      sinon.stub(salesModel, 'findById').resolves([]);
+
+      const saleId = 99;
+      const productId = 2;
+      const quantity = { quantity: 4 };
+
+      const responseService = await salesService.updateQuantity(saleId, productId, quantity);
+
+      expect(responseService.status).to.be.equal('NOT_FOUND');
+      expect(responseService.data).to.be.deep.equal({ message: 'Sale not found' });
+    });
+    it('should return a error if product doesnt exist on sale', async function () {
+      sinon.stub(salesModel, 'findById').resolves(salesByIdFromModel);
+
+      const saleId = 1;
+      const productId = 44;
+      const quantity = { quantity: 4 };
+
+      const responseService = await salesService.updateQuantity(saleId, productId, quantity);
+
+      expect(responseService.status).to.be.equal('NOT_FOUND');
+      expect(responseService.data).to.be.deep.equal({ message: 'Product not found in sale' });
     });
   });
 
