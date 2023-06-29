@@ -66,7 +66,7 @@ describe('The SALES SERVICE LAYER', function () {
       expect(insertIdResponse.data).to.be.deep.equal(newSaleFromService);
     });
 
-    it('should return a error when ID doesnt exists', async function () {
+    it('should return an error when ID does not exist', async function () {
       sinon.stub(productsModel, 'findById')
         .onFirstCall()
         .resolves(undefined)
@@ -83,7 +83,7 @@ describe('The SALES SERVICE LAYER', function () {
       expect(responseService.data).to.be.deep.equal({ message: 'Product not found' });
     });
 
-    it('should return a error when fields is not completed', async function () {
+    it('should return an error when fields are not completed', async function () {
       const inputData = [
         { productId: 1, quantity: -1 },
         { productId: 2, quantity: 2 },

@@ -73,6 +73,11 @@ const newSaleFromService = {
   ],
 };
 
+const saleFromServiceCreated = {
+  status: 'CREATED',
+  data: newSaleFromService,
+};
+
 module.exports = {
   allSalesFromModel,
   salesByIdFromModel,
@@ -84,4 +89,5 @@ module.exports = {
   saleIdFromModel,
   newSaleFromModel,
   newSaleFromService,
+  saleFromServiceCreated,
 };
