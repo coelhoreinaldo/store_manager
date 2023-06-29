@@ -49,6 +49,22 @@ const productFromServiceCreated = {
   status: 'CREATED',
   data: newProductByIdFromModel,
 };
+
+const updatedProductFromDB = [
+  {
+    fieldCount: 0,
+    affectedRows: 1,
+    insertId: 0,
+    info: 'Rows matched: 1  Changed: 1  Warnings: 0',
+    serverStatus: 2,
+    warningStatus: 0,
+    changedRows: 1,
+  },
+  undefined,
+];
+
+const updatedProductFromModel = { id: 1, name: 'Bola de futebol' };
+
 // const productFromServiceInvalidValue = {
 //   status: 'INVALID_VALUE',
 //   data: { message: 'message' },
@@ -77,4 +93,6 @@ module.exports = {
   productIdFromModel,
   newProductByIdFromModel,
   productFromServiceCreated,
+  updatedProductFromDB,
+  updatedProductFromModel,
 };

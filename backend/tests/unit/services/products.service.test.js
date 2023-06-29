@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 const { productsModel } = require('../../../src/models');
-const { allProductsFromModelDB, allProductsFromService, productByIdFromModelDB, productByIdFromService, productIdFromModel, newProductByIdFromModel } = require('../mocks/products.mock');
+const { allProductsFromModelDB, allProductsFromService, productByIdFromModelDB, productByIdFromService, productIdFromModel, newProductByIdFromModel, updatedProductFromDB, updatedProductFromModel } = require('../mocks/products.mock');
 const { productsService } = require('../../../src/services');
 
 describe('The PRODUCTS SERVICE LAYER', function () {
@@ -64,6 +64,42 @@ describe('The PRODUCTS SERVICE LAYER', function () {
 
       expect(responseService.status).to.be.equal('INVALID_VALUE');
       expect(responseService.data).to.be.deep.equal({ message: '"name" length must be at least 5 characters long' });
+    });
+  });
+
+  describe('PUT endpoint', function () {
+    it('should edit data of an existent product', async function () {
+      sinon.stub(productsModel, 'findById').onFirstCall().resolves(productByIdFromModelDB)
+        .onSecondCall()
+        .resolves(updatedProductFromModel);
+      sinon.stub(productsModel, 'update').resolves(updatedProductFromDB);
+
+      const inputData = { name: 'Bola de futebol' };
+      const paramsId = 1;
+      const responseService = await productsService.update(paramsId, inputData);
+
+      expect(responseService.status).to.be.equal('SUCCESSFUL');
+      expect(responseService.data).to.be.equal(updatedProductFromModel);
+    });
+    it('should return an error if product doesnt exists', async function () {
+      sinon.stub(productsModel, 'findById').resolves(undefined);
+
+      const inputData = { name: 'Bola de futebol' };
+      const paramsId = 44;
+      const responseService = await productsService.update(paramsId, inputData);
+
+      expect(responseService.status).to.be.equal('NOT_FOUND');
+    });
+
+    it('should return an error when fields are not completed', async function () {
+      sinon.stub(productsModel, 'findById').resolves(productByIdFromModelDB);
+
+      const inputData = { name: '' };
+      const paramsId = 1;
+      const responseService = await productsService.update(paramsId, inputData);
+
+      expect(responseService.status).to.be.equal('INVALID_VALUE');
+      expect(responseService.data).to.be.deep.equal({ message: '"name" is not allowed to be empty' });
     });
   });
 

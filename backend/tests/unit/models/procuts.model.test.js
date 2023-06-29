@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const connection = require('../../../src/models/connection');
 const { productsModel } = require('../../../src/models');
-const { allProductsFromModelDB, productByIdFromModelDB, productIdFromDB, productIdFromModel } = require('../mocks/products.mock');
+const { allProductsFromModelDB, productByIdFromModelDB, productIdFromDB, productIdFromModel, updatedProductFromDB } = require('../mocks/products.mock');
 
 describe('The PRODUCTS MODEL LAYER', function () {
   describe('GET endpoint', function () {
@@ -39,5 +39,18 @@ describe('The PRODUCTS MODEL LAYER', function () {
       expect(insertIdResponse).to.be.equal(productIdFromModel);
     });
   });
+
+  describe('PUT endpoint', function () {
+    it('should edit data of an existent product', async function () {
+      sinon.stub(connection, 'execute').resolves(updatedProductFromDB);
+
+      const inputData = { name: 'Bola de futebol' };
+      const responseData = await productsModel.update(1, inputData);
+
+      expect(responseData[0].affectedRows).to.be.equal(1);
+      expect(responseData[0].changedRows).to.be.equal(1);
+    });
+  });
+
   afterEach(function () { return sinon.restore(); });
 });
