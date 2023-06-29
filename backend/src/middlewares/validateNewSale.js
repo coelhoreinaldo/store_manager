@@ -6,6 +6,10 @@ const validateCreateSale = (req, res, next) => {
 
   let error = '';
 
+  // if(sales.length > 0){
+  //   error = sales.find((e) => checkRequiredFields(e, requiredFields));
+  // }
+
   for (let i = 0; i < sales.length; i += 1) {
     const fail = checkRequiredFields(sales[i], requiredFields);
     if (fail) {
