@@ -21,7 +21,7 @@ const insert = async (req, res) => {
 const deleteSale = async (req, res) => {
   const { id } = req.params;
   const { status, data } = await salesService.deleteSale(id);
-  return res.status(mapStatusHTTP(status)).json(data) || res.sendStatus(status).end();
+  return res.status(mapStatusHTTP(status)).json(data) || res.status(status).end();
 };
 
 module.exports = {

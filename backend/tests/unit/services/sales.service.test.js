@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 const { salesModel, productsModel } = require('../../../src/models');
-const { allSalesFromModel, allSalesFromService, salesByIdFromModel, salesByIdFromService, saleIdFromModel, newSaleFromService } = require('../mocks/sales.mock');
+const { allSalesFromModel, allSalesFromService, salesByIdFromModel, salesByIdFromService, saleIdFromModel, newSaleFromService, deletedSaleFromDb } = require('../mocks/sales.mock');
 const { salesService } = require('../../../src/services');
 const { allProductsFromService } = require('../mocks/products.mock');
 
@@ -93,6 +93,25 @@ describe('The SALES SERVICE LAYER', function () {
 
       expect(responseService.status).to.be.equal('INVALID_VALUE');
       expect(responseService.data).to.be.deep.equal({ message: '"quantity" must be greater than or equal to 1' });
+    });
+  });
+  describe('DELETE endpoint', function () {
+    it('should delete a sale', async function () {
+      sinon.stub(salesModel, 'findById').resolves(salesByIdFromModel);
+      sinon.stub(salesModel, 'deleteSale').resolves(deletedSaleFromDb);
+
+      const id = 1;
+      const serviceData = await salesService.deleteSale(id);
+
+      expect(serviceData.status).to.be.equal('DELETED');
+    });
+    it('should return an error if sale doesnt exists', async function () {
+      sinon.stub(salesModel, 'findById').resolves([]);
+
+      const id = 1;
+      const serviceData = await salesService.deleteSale(id);
+
+      expect(serviceData.status).to.be.equal('NOT_FOUND');
     });
   });
 

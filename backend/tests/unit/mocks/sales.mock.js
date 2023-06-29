@@ -90,6 +90,16 @@ const deletedSaleFromDb = [
   undefined,
 ];
 
+const saleFromServiceDeleted = {
+  status: 'DELETED',
+  data: { message: 'message' },
+};
+
+const saleFromServiceNotFound = {
+  status: 'NOT_FOUND',
+  data: { message: 'message' },
+};
+
 module.exports = {
   allSalesFromModel,
   salesByIdFromModel,
@@ -103,4 +113,6 @@ module.exports = {
   newSaleFromService,
   saleFromServiceCreated,
   deletedSaleFromDb,
+  saleFromServiceDeleted,
+  saleFromServiceNotFound,
 };

@@ -4,7 +4,7 @@ const sinon = require('sinon');
 const sinonChai = require('sinon-chai');
 
 chai.use(sinonChai);
-const { allSalesFromService, salesByIdFromService, salesByIdFromServiceNotFound, allSalesFromServiceNotFound, newSaleFromModel, saleFromServiceCreated } = require('../mocks/sales.mock');
+const { allSalesFromService, salesByIdFromService, salesByIdFromServiceNotFound, allSalesFromServiceNotFound, newSaleFromModel, saleFromServiceCreated, saleFromServiceDeleted, saleFromServiceNotFound } = require('../mocks/sales.mock');
 const { salesService } = require('../../../src/services');
 const { salesController } = require('../../../src/controllers');
 const mapStatusHTTP = require('../../../src/utils/mapStatusToHTTP');
@@ -104,6 +104,47 @@ describe('The SALES CONTROLLER LAYER', function () {
     it('should return status 500', function () {
       const response = mapStatusHTTP('SERVIDOR');
       expect(response).to.be.equal(500);
+    });
+  });
+  describe('DELETE endpoint', function () {
+    it('should delete a sale', async function () {
+      sinon.stub(salesService, 'deleteSale').resolves(saleFromServiceDeleted);
+
+      const id = 1;
+
+      const req = {
+        params: { id },
+        body: {},
+      };
+
+      const res = {
+        status: sinon.stub().returnsThis(),
+        json: sinon.stub(),
+        end: sinon.stub(),
+      };
+
+      await salesController.deleteSale(req, res);
+      expect(res.status).to.have.been.calledWith(204);
+    });
+    it('should return an error if sale doesnt exists', async function () {
+      sinon.stub(salesService, 'deleteSale').resolves(saleFromServiceNotFound);
+
+      const id = 99;
+
+      const req = {
+        params: { id },
+        body: {},
+      };
+
+      const res = {
+        status: sinon.stub().returnsThis(),
+        json: sinon.stub(),
+        end: sinon.stub(),
+      };
+
+      await salesController.deleteSale(req, res);
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: 'message' });
     });
   });
 
