@@ -79,6 +79,23 @@ describe('The PRODUCTS CONTROLLER LAYER', function () {
       expect(res.status).to.have.been.calledWith(404);
       expect(res.json).to.have.been.calledWith(productByIdFromServiceNotFound.data);
     });
+
+    it('shold return products filtereds by name', async function async() {
+      sinon.stub(productsService, 'findAll').resolves(allProductsFromService);
+      const req = {
+        params: {},
+        body: {},
+        query: { q: 'Martelo' },
+      };
+      const res = {
+        status: sinon.stub().returnsThis(),
+        json: sinon.stub(),
+      };
+
+      await productsController.findByName(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+    });
   });
 
   describe('POST endpoint', function () {
